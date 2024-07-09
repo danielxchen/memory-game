@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Card } from './components/Card';
 import { getPokemon } from './pokeService';
 
 function App() {
@@ -8,15 +9,10 @@ function App() {
     getPokemon().then(p => setPokemon(p));
   }, []);
 
-  const { name, color, url } = pokemon;
-
   return (
     <>
       <h1>Memory Game</h1>
-      <div style={{backgroundColor: color, width: "16rem" }}>
-        <h2>{name}</h2>
-        <img src={url} width={200} height={200} />
-      </div>
+      <Card pokemon={pokemon} />
     </>
   )
 }
