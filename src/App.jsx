@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card } from './components/Card';
-import { getPokemon } from './pokeService';
+import { getPokemon } from './services/pokeService';
 
 function App() {
   const [pokemon, setPokemon] = useState('');
