@@ -6,7 +6,7 @@ export async function getPokemon(id) {
   const pokemon = await pokemonResponse.json();
 
   const name = pokemon.name;
-  const type = pokemon.types[0].type.name;
+  const type = pokemon.past_types.length > 0 ? pokemon.past_types[0].types[0].type.name : pokemon.types[0].type.name;
   const color = getTypeColor(type);
   const url = pokemon.sprites.front_default;
 

@@ -13,10 +13,14 @@ function App() {
 
   return (
     <>
-      <h1>Memory Game</h1>
-      {
-        pokemon.map(p => <Card key={p.id} pokemon={p} />)
-      }
+      <div className="w-2/3 mx-auto p-16">
+        <h1 className="text-center text-8xl mb-12">Memory Game</h1>
+        <div className="grid grid-cols-4 gap-8">
+        {
+          pokemon.map(p => <Card key={p.id} pokemon={p} />)
+        }
+        </div>
+      </div>
     </>
   )
 }
