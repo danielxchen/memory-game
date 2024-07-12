@@ -1,8 +1,8 @@
-export function Card({ pokemon }) {
+export function Card({ pokemon, onClick }) {
   const { name, color, url } = pokemon;
 
   return (
-    <div className="p-6 rounded-lg shadow-lg" style={{backgroundColor: color}}>
+    <div className="p-6 rounded-lg shadow-lg" style={{backgroundColor: color}} onClick={onClick}>
       <div className="rounded-md bg-slate-100 py-2">
         <h2 className="text-center capitalize text-2xl">{name}</h2>
       </div>

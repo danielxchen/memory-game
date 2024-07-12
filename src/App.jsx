@@ -6,10 +6,20 @@ import { generateIds } from './services/idsGenerator';
 function App() {
   const [pokemon, setPokemon] = useState([]);
   const count = 12;
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     getAllPokemon(count).then(allPokemon => setPokemon(allPokemon));
   }, []);
+
+  function handlePokemonClick(pokemon) {
+    if (selected.includes(pokemon.id)) {
+      console.log('Already selected!');
+    } else {
+      const nextSelected = [...selected, pokemon.id];
+      setSelected(nextSelected);
+    }
+  }
 
   return (
     <>
@@ -17,7 +27,7 @@ function App() {
         <h1 className="text-center text-8xl mb-12">Memory Game</h1>
         <div className="grid grid-cols-4 gap-8">
         {
-          pokemon.map(p => <Card key={p.id} pokemon={p} />)
+          pokemon.map(p => <Card key={p.id} pokemon={p} onClick={() => handlePokemonClick(p)}/>)
         }
         </div>
       </div>
