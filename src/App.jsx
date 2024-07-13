@@ -1,24 +1,39 @@
 import { useState, useEffect } from 'react';
 import { Scoreboard } from './components/Scoreboard';
 import { Card } from './components/Card';
-import { getPokemon } from './services/pokeService';
-import { generateIds } from './services/idsGenerator';
+import { getAllPokemon } from './services/pokeService';
+import { generateIds, shuffle } from './services/utilities';
 
 function App() {
-  const [pokemon, setPokemon] = useState([]);
   const count = 12;
+  const initialIds = generateIds(count);
+
+  const [pokeIds, setPokeIds] = useState(initialIds);
+  const [pokemon, setPokemon] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [highScore, setHighScore] = useState(0);
 
   useEffect(() => {
-    getAllPokemon(count).then(allPokemon => setPokemon(allPokemon));
-  }, []);
+    getAllPokemon(pokeIds).then(allPokemon => setPokemon(allPokemon));
+  }, [pokeIds]);
 
-  function handlePokemonClick(pokemon) {
-    if (selected.includes(pokemon.id)) {
-      console.log('Already selected!');
+  function handlePokemonClick(clickedPokemon) {
+    if (selected.includes(clickedPokemon.id)) {
+      const currentScore = selected.length;
+
+      if (currentScore > highScore) {
+        setHighScore(currentScore);
+      }
+
+      const newIds = generateIds(count);
+      setPokeIds(newIds);
+      setSelected([]);
     } else {
-      const nextSelected = [...selected, pokemon.id];
+      const nextSelected = [...selected, clickedPokemon.id];
       setSelected(nextSelected);
+
+      const shuffled = shuffle(pokemon);
+      setPokemon(shuffled);
     }
   }
 
@@ -26,7 +41,7 @@ function App() {
     <>
       <div className="w-2/3 mx-auto p-16">
         <h1 className="text-center text-7xl mb-10">Memory Game</h1>
-        <Scoreboard currentScore={selected.length} highScore={0} />
+        <Scoreboard currentScore={selected.length} highScore={highScore} />
         <div className="grid grid-cols-4 gap-8">
         {
           pokemon.map(p => <Card key={p.id} pokemon={p} onClick={() => handlePokemonClick(p)}/>)
@@ -35,18 +50,6 @@ function App() {
       </div>
     </>
   )
-}
-
-function getAllPokemon(count) {
-  const pokeIds = generateIds(count);
-  const requestPool = []
-
-  pokeIds.forEach(pokeId => {
-    const request = getPokemon(pokeId);
-    requestPool.push(request);
-  });
-
-  return Promise.all(requestPool);
 }
 
 export default App

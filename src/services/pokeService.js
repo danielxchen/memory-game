@@ -1,4 +1,4 @@
-export async function getPokemon(id) {
+async function getPokemon(id) {
   const pokeapinUrl = 'https://pokeapi.co/api/v2/pokemon/';
   const pokemonRequestUrl = `${pokeapinUrl}${id}`;
   
@@ -11,6 +11,17 @@ export async function getPokemon(id) {
   const url = pokemon.sprites.front_default;
 
   return { id, name, color, url }
+}
+
+export function getAllPokemon(ids) {
+  const requestPool = []
+
+  ids.forEach(id => {
+    const request = getPokemon(id);
+    requestPool.push(request);
+  });
+
+  return Promise.all(requestPool);
 }
 
 function getTypeColor(type) {
