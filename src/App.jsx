@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Scoreboard } from './components/Scoreboard';
 import { Card } from './components/Card';
 import { getPokemon } from './services/pokeService';
 import { generateIds } from './services/idsGenerator';
@@ -24,7 +25,8 @@ function App() {
   return (
     <>
       <div className="w-2/3 mx-auto p-16">
-        <h1 className="text-center text-8xl mb-12">Memory Game</h1>
+        <h1 className="text-center text-7xl mb-10">Memory Game</h1>
+        <Scoreboard currentScore={selected.length} highScore={0} />
         <div className="grid grid-cols-4 gap-8">
         {
           pokemon.map(p => <Card key={p.id} pokemon={p} onClick={() => handlePokemonClick(p)}/>)
