@@ -3,11 +3,13 @@ import { Scoreboard } from './components/Scoreboard';
 import { Card } from './components/Card';
 import { getAllPokemon } from './services/pokeService';
 import { generateIds, shuffle } from './services/utilities';
+import { StartScreen } from './components/StartScreen';
 
 function App() {
   const count = 12;
   const initialIds = generateIds(count);
 
+  const [gameStatus, setGameStatus] = useState('start');
   const [pokeIds, setPokeIds] = useState(initialIds);
   const [pokemon, setPokemon] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -16,6 +18,10 @@ function App() {
   useEffect(() => {
     getAllPokemon(pokeIds).then(allPokemon => setPokemon(allPokemon));
   }, [pokeIds]);
+
+  function handleStartClick() {
+    setGameStatus('playing');
+  }
 
   function handlePokemonClick(clickedPokemon) {
     if (selected.includes(clickedPokemon.id)) {
@@ -40,13 +46,20 @@ function App() {
   return (
     <>
       <div className="w-2/3 mx-auto p-16">
-        <h1 className="text-center text-7xl mb-10">Memory Game</h1>
-        <Scoreboard currentScore={selected.length} highScore={highScore} />
-        <div className="grid grid-cols-4 gap-8">
+        <h1 className="text-center text-7xl mb-10">Pokémon Memory Game</h1>
         {
-          pokemon.map(p => <Card key={p.id} pokemon={p} onClick={() => handlePokemonClick(p)}/>)
+          gameStatus === 'start' && <StartScreen onClick={handleStartClick} />
         }
-        </div>
+        {
+          gameStatus === 'playing' && <>
+            <Scoreboard currentScore={selected.length} highScore={highScore} />
+            <div className="grid grid-cols-4 gap-8">
+            {
+              pokemon.map(p => <Card key={p.id} pokemon={p} onClick={() => handlePokemonClick(p)}/>)
+            }
+            </div>
+          </>
+        }
       </div>
     </>
   )
