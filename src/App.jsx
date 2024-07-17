@@ -27,6 +27,7 @@ function App() {
   function handlePlayAgainClick() {
     const newIds = generateIds(count);
     setPokeIds(newIds);
+    setPokemon([]);
     setSelected([]);
     setGameStatus('playing');
   }
