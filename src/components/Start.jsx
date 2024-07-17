@@ -9,8 +9,8 @@ export function Start({ onClick }) {
   ];
 
   return (
-    <div className="rounded-lg bg-slate-100 w-1/2 mx-auto p-8">
-      <h2 className="text-4xl mb-4">Instructions:</h2>
+    <div className="rounded-lg bg-slate-100 w-2/3 mx-auto p-6">
+      <h2 className="text-3xl mb-4">Instructions:</h2>
       <ol className="list-disc">
         {
           instructions.map((instruction, index) => 

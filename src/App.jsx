@@ -58,8 +58,8 @@ function App() {
 
   return (
     <>
-      <div className="w-2/3 mx-auto p-16">
-        <h1 className="text-center text-7xl mb-10">Pokémon Memory Game</h1>
+      <div className="w-4/5 mx-auto p-8">
+        <h1 className="text-center text-5xl mb-6">Pokémon Memory Game</h1>
         {
           gameStatus === 'start' && <Start onClick={handleStartClick} />
         }
@@ -67,7 +67,7 @@ function App() {
           gameStatus === 'playing' &&
           <>
             <Scoreboard currentScore={selected.length} highScore={highScore} />
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-6 gap-6">
             {
               pokemon.map(p => <Card key={p.id} pokemon={p} onClick={() => handlePokemonClick(p)}/>)
             }
