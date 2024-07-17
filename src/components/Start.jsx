@@ -1,8 +1,9 @@
-export function StartScreen({ onClick }) {
+export function Start({ onClick }) {
   const instructions = [
     'A grid of random Pokémon will be displayed.',
     'Click each Pokémon only once.',
     'All of the Pokémon will be shuffled after each click.',
+    "Try your best to remember which ones you've already clicked.",
     'Clicking on the same Pokémon twice will result in Game Over.',
     "When you're ready, click Start!",
   ];

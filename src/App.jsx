@@ -3,7 +3,8 @@ import { Scoreboard } from './components/Scoreboard';
 import { Card } from './components/Card';
 import { getAllPokemon } from './services/pokeService';
 import { generateIds, shuffle } from './services/utilities';
-import { StartScreen } from './components/StartScreen';
+import { Start } from './components/Start';
+import { GameOver } from './components/GameOver';
 
 function App() {
   const count = 12;
@@ -23,23 +24,35 @@ function App() {
     setGameStatus('playing');
   }
 
+  function handlePlayAgainClick() {
+    const newIds = generateIds(count);
+    setPokeIds(newIds);
+    setSelected([]);
+    setGameStatus('playing');
+  }
+
   function handlePokemonClick(clickedPokemon) {
     if (selected.includes(clickedPokemon.id)) {
-      const currentScore = selected.length;
-
-      if (currentScore > highScore) {
-        setHighScore(currentScore);
+      const score = selected.length;
+  
+      if (score > highScore) {
+        setHighScore(score);
       }
 
-      const newIds = generateIds(count);
-      setPokeIds(newIds);
-      setSelected([]);
+      setGameStatus('game over');
     } else {
       const nextSelected = [...selected, clickedPokemon.id];
       setSelected(nextSelected);
 
-      const shuffled = shuffle(pokemon);
-      setPokemon(shuffled);
+      if (nextSelected.length === count) {
+        if (highScore < count) {
+          setHighScore(count);
+        }
+        setGameStatus('game over');
+      } else {
+        const shuffled = shuffle(pokemon);
+        setPokemon(shuffled);
+      }
     }
   }
 
@@ -48,10 +61,11 @@ function App() {
       <div className="w-2/3 mx-auto p-16">
         <h1 className="text-center text-7xl mb-10">Pokémon Memory Game</h1>
         {
-          gameStatus === 'start' && <StartScreen onClick={handleStartClick} />
+          gameStatus === 'start' && <Start onClick={handleStartClick} />
         }
         {
-          gameStatus === 'playing' && <>
+          gameStatus === 'playing' &&
+          <>
             <Scoreboard currentScore={selected.length} highScore={highScore} />
             <div className="grid grid-cols-4 gap-8">
             {
@@ -59,6 +73,9 @@ function App() {
             }
             </div>
           </>
+        }
+        {
+          gameStatus === 'game over' && <GameOver score={selected.length} count={count} onClick={handlePlayAgainClick} />
         }
       </div>
     </>
